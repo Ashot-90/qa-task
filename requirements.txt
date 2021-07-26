@@ -1,0 +1,2 @@
+selenium==3.141.0
+unittest-parallel==1.4.3
