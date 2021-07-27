@@ -1,4 +1,7 @@
+from typing import Type, List, Tuple
 from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.android.webdriver import WebDriver
+from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from pages import common_config
@@ -12,11 +15,11 @@ class Common(object):
 
     _chrome_driver_path = common_config.config_common['chrome_driver_path']
 
-    def __init__(self, driver, page_elements):
+    def __init__(self, driver: WebDriver, page_elements: Type[CommonPageLocators]):
         self.driver = driver
         self.page_elements = page_elements
 
-    def load_page(self):
+    def load_page(self) -> None:
         url = self.page_elements.URL
         self.driver.get(url)
         self.driver.maximize_window()
@@ -33,7 +36,7 @@ class Common(object):
                                    test_name='load_page')
             raise TimeoutException("Error: Timed out waiting for page load")
 
-    def close_questionnaire(self):
+    def close_questionnaire(self) -> None:
         wait = WebDriverWait(self.driver, timeout=10)
         load_completed = wait.until(
             EC.text_to_be_present_in_element(CommonPageLocators.QUESTIONNAIRE,
@@ -41,13 +44,13 @@ class Common(object):
         if load_completed:
             self.find_and_click_on_element(element=CommonPageLocators.CLOSE_QUESTIONNAIRE_BUTTON)
 
-    def accept_all_cookies(self):
+    def accept_all_cookies(self) -> None:
         element = WebDriverWait(self.driver, 30).until(
                             EC.element_to_be_clickable(CommonPageLocators.ACCEPT_ALL_COOKIES))
         self.wait_for_stop_element_move(element)
         self.find_and_click_on_element(element=CommonPageLocators.ACCEPT_ALL_COOKIES)
 
-    def wait_for_stop_element_move(self, element):
+    def wait_for_stop_element_move(self, element: WebElement) -> None:
         attempt = 1
         timeout_after = 100
         previous_location = {}
@@ -61,12 +64,12 @@ class Common(object):
             if attempt == timeout_after:
                 raise TimeoutException(msg="Error: Timed out waiting for element location change")
 
-    def get_all_price_elements(self):
+    def get_all_price_elements(self) -> List[WebElement]:
         return self.driver. \
             find_element(*self.page_elements.GRID). \
             find_elements(*self.page_elements.ALL_PRICES)
 
-    def wait_for_grid_to_be_updated(self):
+    def wait_for_grid_to_be_updated(self) -> None:
         attempt = 1
         timeout_after = 200
         items = self.get_all_price_elements()
@@ -84,7 +87,7 @@ class Common(object):
             if attempt == timeout_after:
                 raise TimeoutException(msg="Error: Timed out waiting for widget update")
 
-    def wait_to_be_updated(self, function):
+    def wait_to_be_updated(self, function) -> None:
         attempt = 1
         timeout_after = 200
         items = function()
@@ -97,7 +100,7 @@ class Common(object):
             if attempt == timeout_after:
                 raise TimeoutException(msg="Error: Timed out waiting for widget update")
 
-    def find_and_click_on_element(self, element):
+    def find_and_click_on_element(self, element: Tuple) -> None:
         element = self.driver.find_element(*element)
         element.click()
 
@@ -107,18 +110,18 @@ class Common(object):
     #     #actions.move_to_element(self.driver.find_element(*element)).click().perform()
 
     @staticmethod
-    def take_screenshot(driver, test_name):
+    def take_screenshot(driver: WebDriver, test_name: str) -> None:
         date_time = datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
         screenshot_file = "screenshot_{}_{}.png".format(test_name, date_time)
         print("Taking screenshot {}".format(screenshot_file))
         driver.save_screenshot(screenshot_file)
 
     @staticmethod
-    def truncate_price_value(price: str):
+    def truncate_price_value(price: str) -> str:
         return price.replace('£', '').replace('€', '').replace(',', '.').strip()
 
     @staticmethod
-    def create_driver():
+    def create_driver() -> WebDriver:
         return webdriver.Chrome(executable_path=r'{}'.format(Common._chrome_driver_path),
                                 options=Common.get_chrome_options())
 

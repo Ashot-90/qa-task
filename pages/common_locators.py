@@ -5,6 +5,8 @@ from pages.member import member_config
 
 
 class CommonPageLocators(object):
+    URL = None
+    ALL_PRICES = None
     PORTAL = os.environ['PORTAL']
     if PORTAL == 'DE':
         CATALOG_CONFIG = catalog_config.config_de
