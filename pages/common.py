@@ -1,6 +1,7 @@
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from pages import common_config
 from pages.common_locators import CommonPageLocators
 from datetime import datetime
 from selenium import webdriver
@@ -9,8 +10,7 @@ import os
 
 class Common(object):
 
-    portal = os.environ['PORTAL']
-    chrome_driver_path = './chromedriver'
+    _chrome_driver_path = common_config.config_common['chrome_driver_path']
 
     def __init__(self, driver, page_elements):
         self.driver = driver
@@ -24,19 +24,22 @@ class Common(object):
             wait = WebDriverWait(self.driver, timeout=10)
             self.accept_all_cookies()
             # For .DE no questionnaire
-            if self.portal != 'DE':
-                load_completed = wait.until(
-                    EC.text_to_be_present_in_element(CommonPageLocators.QUESTIONNAIRE,
-                                                     CommonPageLocators.QUESTIONNAIRE_TEXT))
-                if load_completed:
-                    self.find_and_click_on_element(element=CommonPageLocators.CLOSE_QUESTIONNAIRE_BUTTON)
-            else:
-                wait.until(
-                    EC.presence_of_element_located(self.page_elements.GRID))
+            if CommonPageLocators.PORTAL != 'DE':
+                self.close_questionnaire()
+            wait.until(
+                EC.presence_of_element_located(self.page_elements.GRID))
         except TimeoutException:
             Common.take_screenshot(driver=self.driver,
-                                   test_name='some_test')
+                                   test_name='load_page')
             raise TimeoutException("Error: Timed out waiting for page load")
+
+    def close_questionnaire(self):
+        wait = WebDriverWait(self.driver, timeout=10)
+        load_completed = wait.until(
+            EC.text_to_be_present_in_element(CommonPageLocators.QUESTIONNAIRE,
+                                             CommonPageLocators.QUESTIONNAIRE_TEXT))
+        if load_completed:
+            self.find_and_click_on_element(element=CommonPageLocators.CLOSE_QUESTIONNAIRE_BUTTON)
 
     def accept_all_cookies(self):
         element = WebDriverWait(self.driver, 30).until(
@@ -116,7 +119,7 @@ class Common(object):
 
     @staticmethod
     def create_driver():
-        return webdriver.Chrome(executable_path=r'{}'.format(Common.chrome_driver_path),
+        return webdriver.Chrome(executable_path=r'{}'.format(Common._chrome_driver_path),
                                 options=Common.get_chrome_options())
 
     @staticmethod

@@ -1,15 +1,10 @@
 from selenium.webdriver.common.by import By
-from pages.common import Common
 from pages.common_locators import CommonPageLocators
 
 
 class CatalogPageLocators(CommonPageLocators):
-    if Common.portal == 'DE':
-        URL = "https://www.vinted.de/catalog"
-        SEARCH_HREF = '/damen/schuhe/absatzschuhe/high-heels-and-pumps/'
-    elif Common.portal == 'UK':
-        URL = "https://www.vinted.co.uk/catalog"
-        SEARCH_HREF = '/women/shoes/heels/high-heels/'
+    URL = CommonPageLocators.CATALOG_CONFIG['url']
+    SEARCH_HREF = CommonPageLocators.CATALOG_CONFIG['search_href']
     BRAND_DROPDOWN_BUTTON = (By.XPATH, "//*[contains(@id, 'Catalog-react-component')]//div[3]/div/div/div/div[4]/div/button")
     PRICE_DROPDOWN_BUTTON = (By.XPATH, "//*[contains(@id, 'Catalog-react-component')]//div[3]/div/div/div/div[5]/div/button")
     CATALOGUE_DROPDOWN_BUTTON = (By.XPATH, "//*[contains(@id, 'Catalog-react-component')]//div[3]/div/div/div/div[1]/div/button")

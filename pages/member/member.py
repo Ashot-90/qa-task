@@ -15,7 +15,6 @@ class MemberPage(object):
         for element in sort_flow:
             self.common.find_and_click_on_element(element=element)
 
-
     def get_all_prices(self):
         self.common.wait_for_grid_to_be_updated()
         return self.common.get_all_price_elements()
