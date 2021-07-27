@@ -1,20 +1,18 @@
-import unittest
 import random
 from pages.catalog.catalog import CatalogPage
 from pages.catalog.catalog_locators import CatalogPageLocators
-from pages.common import Common
+from tests.test_base import TestBase
 
 
-class TestCatalogPage(unittest.TestCase):
+class TestCatalogPage(TestBase):
+
+    _report = []
 
     def setUp(self):
-        self.driver = Common.create_driver()
+        super().setUp()
         self.catalog_page = CatalogPage(driver=self.driver)
 
-    def tearDown(self):
-        self.driver.close()
-
-    @Common.test_wrapper
+    @TestBase.wrap_test
     def test_brand_filter_nike(self):
         """
         Test for brand filter by 'Ni' and all filtered items have "Nike" brand
@@ -28,7 +26,7 @@ class TestCatalogPage(unittest.TestCase):
         self.assertEqual(len(brands), 1,
                          msg="FAILED - '{}' Not all brands are 'Nike'".format(self._testMethodName))
 
-    @Common.test_wrapper
+    @TestBase.wrap_test
     def test_price_filter_20_50(self):
         """
         Test for price filter from 20 to 50
@@ -45,7 +43,7 @@ class TestCatalogPage(unittest.TestCase):
                             for price in self.catalog_page.get_all_price_values()),
                         msg="FAILED - '{}' Filtered items don't belong to [20-50] range".format(self._testMethodName))
 
-    @Common.test_wrapper
+    @TestBase.wrap_test
     def test_brand_filter_nike_2(self):
         """
         Test for brand filter by 'Nik' and all brands under dropdown menu contains it
@@ -57,7 +55,7 @@ class TestCatalogPage(unittest.TestCase):
                             for menu_item in self.catalog_page.get_brand_filtered_dropdown()),
                         msg="FAILED - '{}' Not all brands are contained 'Nik'".format(self._testMethodName))
 
-    @Common.test_wrapper
+    @TestBase.wrap_test
     def test_catalogue_filter(self):
         """
         Test catalogue filter for “Women” -> “Shoes” -> “Heels” -> “High-heels”
@@ -69,7 +67,3 @@ class TestCatalogPage(unittest.TestCase):
         self.assertIn(CatalogPageLocators.SEARCH_HREF,
                       random_element.get_attribute('href'),
                       msg="FAILED - '{}' Random element doesn't belong to 'high-heels'".format(self._testMethodName))
-
-
-if __name__ == "__main__":
-    unittest.main()

@@ -75,7 +75,7 @@ class Common(object):
                 break
             else:
                 already_sorted += 1
-                if already_sorted == 20:
+                if already_sorted == 50:
                     break
             attempt += 1
             self.driver.implicitly_wait(0.1)
@@ -98,20 +98,6 @@ class Common(object):
     def find_and_click_on_element(self, element):
         element = self.driver.find_element(*element)
         element.click()
-
-    @staticmethod
-    def test_wrapper(test_function):
-        @wraps(test_function)
-        def wrapper(test):
-            try:
-                test_function(test)
-                print("PASSED - '{}'".format(test._testMethodName))
-            except Exception as ex:
-                print("FAILED - '{}'".format(test._testMethodName))
-                Common.take_screenshot(driver=test.driver,
-                                       test_name=test._testMethodName)
-                raise ex
-        return wrapper
 
     @staticmethod
     def take_screenshot(driver, test_name):
