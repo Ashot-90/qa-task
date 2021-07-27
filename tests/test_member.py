@@ -6,7 +6,7 @@ from pages.member.member import MemberPage
 class TestMemberPage(unittest.TestCase):
 
     def setUp(self):
-        self.driver = Common.create_chrome_driver()
+        self.driver = Common.create_driver()
         self.member_page = MemberPage(driver=self.driver)
 
     def tearDown(self):

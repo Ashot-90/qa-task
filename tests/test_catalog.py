@@ -8,7 +8,7 @@ from pages.common import Common
 class TestCatalogPage(unittest.TestCase):
 
     def setUp(self):
-        self.driver = Common.create_chrome_driver()
+        self.driver = Common.create_driver()
         self.catalog_page = CatalogPage(driver=self.driver)
 
     def tearDown(self):

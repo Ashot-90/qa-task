@@ -125,7 +125,7 @@ class Common(object):
         return price.replace('£', '').replace('€', '').replace(',', '.').strip()
 
     @staticmethod
-    def create_chrome_driver():
+    def create_driver():
         return webdriver.Chrome(executable_path=r'{}'.format(Common.chrome_driver_path),
                                 options=Common.get_chrome_options())
 
