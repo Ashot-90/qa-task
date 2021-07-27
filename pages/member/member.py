@@ -10,10 +10,11 @@ class MemberPage(object):
         self.common.load_page()
 
     def sort_price_high_to_low(self):
-        sort_flow = (MemberPageLocators.PRICE_DROPDOWN_BUTTON,
+        sort_flow = (MemberPageLocators.SORT_DROPDOWN_BUTTON,
                      MemberPageLocators.SORT_PRICE_HIGH_TO_LOW)
         for element in sort_flow:
             self.common.find_and_click_on_element(element=element)
+
 
     def get_all_prices(self):
         self.common.wait_for_grid_to_be_updated()

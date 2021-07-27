@@ -1,4 +1,3 @@
-from functools import wraps
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -98,6 +97,11 @@ class Common(object):
     def find_and_click_on_element(self, element):
         element = self.driver.find_element(*element)
         element.click()
+
+    # def move_to_element_and_click(self, element):
+    #     self.driver.execute_script("arguments[0].click();", self.driver.find_element(*element))
+    #     #actions = webdriver.ActionChains(self.driver)
+    #     #actions.move_to_element(self.driver.find_element(*element)).click().perform()
 
     @staticmethod
     def take_screenshot(driver, test_name):
