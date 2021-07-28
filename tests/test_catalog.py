@@ -6,14 +6,12 @@ from tests.test_base import TestBase
 
 class TestCatalogPage(TestBase):
 
-    _report = []
-
     def setUp(self):
         super().setUp()
         self.catalog_page = CatalogPage(driver=self.driver)
 
     @TestBase.wrap_test
-    def test_brand_filter_nike(self):
+    def test_brand_filter(self):
         """
         Test for brand filter by 'Ni' and all filtered items have "Nike" brand
         """
@@ -27,7 +25,7 @@ class TestCatalogPage(TestBase):
                          msg="FAILED - '{}' Not all brands are 'Nike'".format(self._testMethodName))
 
     @TestBase.wrap_test
-    def test_price_filter_20_50(self):
+    def test_price_filter(self):
         """
         Test for price filter from 20 to 50
         """
@@ -44,7 +42,7 @@ class TestCatalogPage(TestBase):
                         msg="FAILED - '{}' Filtered items don't belong to [20-50] range".format(self._testMethodName))
 
     @TestBase.wrap_test
-    def test_brand_filter_nike_2(self):
+    def test_brand_filter_dropdown(self):
         """
         Test for brand filter by 'Nik' and all brands under dropdown menu contains it
         """

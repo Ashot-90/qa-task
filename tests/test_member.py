@@ -11,7 +11,7 @@ class TestMemberPage(TestBase):
         self.member_page = MemberPage(driver=self.driver)
 
     @TestBase.wrap_test
-    def test_sort_price_high_to_low(self):
+    def test_price_sort(self):
         """
         Test for price sort from high to low
         """
@@ -22,4 +22,4 @@ class TestMemberPage(TestBase):
             if '£' in text or '€' in text:
                 prices.append(self.member_page.common.truncate_price_value(text))
         self.assertTrue(all(float(prices[i]) >= float(prices[i + 1]) for i in range(len(prices) - 1)),
-                        msg="FAILED - '{}'".format(self._testMethodName))
+                        msg="FAILED - '{}' Prices sorted incorrectly ".format(self._testMethodName))
