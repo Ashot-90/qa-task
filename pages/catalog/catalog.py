@@ -47,22 +47,16 @@ class CatalogPage(object):
     def _get_all_brand_filtered_dropdown(self) -> List[WebElement]:
         return self.driver.find_elements(*CatalogPageLocators.FILTERED_LIST)
 
-    def _get_all_href_elements(self) -> List[WebElement]:
-        return self.driver.find_elements(*CatalogPageLocators.ALL_HREFS)
-
-    def _get_all_brand_elements(self) -> List[WebElement]:
-        return self.driver.find_elements(*CatalogPageLocators.ALL_BRANDS)
-
     def click_on_nike(self) -> None:
         self.common.find_and_click_on_element(element=CatalogPageLocators.NIKE_CHECK_BOX)
 
     def get_all_brand_names(self) -> List[WebElement]:
         self.common.wait_for_grid_to_be_updated()
-        return self._get_all_brand_elements()
+        return self.driver.find_elements(*CatalogPageLocators.ALL_BRANDS)
 
     def get_catalogue_filtered_hrefs(self) -> List[WebElement]:
         self.common.wait_for_grid_to_be_updated()
-        return self._get_all_href_elements()
+        return self.driver.find_elements(*CatalogPageLocators.ALL_HREFS)
 
     def get_brand_filtered_dropdown(self) -> List[WebElement]:
         self.common.wait_to_be_updated(function=self._get_all_brand_filtered_dropdown)
