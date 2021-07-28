@@ -4,8 +4,8 @@ from selenium.webdriver.android.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from pages import common_config
-from pages.common_locators import CommonPageLocators
+from pages.common import common_config
+from pages.common.common_locators import CommonPageLocators
 from datetime import datetime
 from selenium import webdriver
 import os
@@ -65,9 +65,11 @@ class Common(object):
                 raise TimeoutException(msg="Error: Timed out waiting for element location change")
 
     def get_all_price_elements(self) -> List[WebElement]:
-        return self.driver. \
-            find_element(*self.page_elements.GRID). \
-            find_elements(*self.page_elements.ALL_PRICES)
+        return self.driver.find_elements(*self.page_elements.ALL_PRICES)
+
+    def get_all_price_values(self) -> List[WebElement]:
+        self.wait_for_grid_to_be_updated()
+        return self.get_all_price_elements()
 
     def wait_for_grid_to_be_updated(self) -> None:
         attempt = 1

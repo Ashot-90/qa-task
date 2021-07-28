@@ -1,5 +1,5 @@
 from selenium.webdriver.common.by import By
-from pages.common_locators import CommonPageLocators
+from pages.common.common_locators import CommonPageLocators
 
 
 class MemberPageLocators(CommonPageLocators):

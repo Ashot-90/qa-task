@@ -2,7 +2,7 @@ from typing import List
 from selenium.webdriver.android.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from pages.catalog.catalog_locators import CatalogPageLocators
-from pages.common import Common
+from pages.common.common import Common
 
 
 class CatalogPage(object):
@@ -60,10 +60,6 @@ class CatalogPage(object):
         self.common.wait_for_grid_to_be_updated()
         return self._get_all_brand_elements()
 
-    def get_all_price_values(self) -> List[WebElement]:
-        self.common.wait_for_grid_to_be_updated()
-        return self.common.get_all_price_elements()
-
     def get_catalogue_filtered_hrefs(self) -> List[WebElement]:
         self.common.wait_for_grid_to_be_updated()
         return self._get_all_href_elements()
@@ -71,4 +67,3 @@ class CatalogPage(object):
     def get_brand_filtered_dropdown(self) -> List[WebElement]:
         self.common.wait_to_be_updated(function=self._get_all_brand_filtered_dropdown)
         return self._get_all_brand_filtered_dropdown()
-

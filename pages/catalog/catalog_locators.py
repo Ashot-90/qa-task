@@ -1,5 +1,5 @@
 from selenium.webdriver.common.by import By
-from pages.common_locators import CommonPageLocators
+from pages.common.common_locators import CommonPageLocators
 
 
 class CatalogPageLocators(CommonPageLocators):
@@ -18,5 +18,5 @@ class CatalogPageLocators(CommonPageLocators):
     FILTERED_LIST = (By.XPATH, "//*[contains(@id, 'Catalog-react-component')]//div[3]/div/div/div/div[4]/div/div/div/div/div/ul/li")
     NIKE_CHECK_BOX = (By.XPATH, "//span[contains(text(), 'Nike')]")
     ALL_BRANDS = (By.XPATH, "//*[contains(@id, 'Catalog-react-component')]//*//div/div/div/div[3]/div/div/div[2]/div[1]/div/div/div/div[2]/span")
-    ALL_PRICES = (By.XPATH, ".//*//div/div/div/div[3]/div/div/div[1]/div[1]/div/div/div/div[1]/span")
+    ALL_PRICES = (By.XPATH, "//*[contains(@id, 'Catalog-react-component')]//*//div/div/div/div[3]/div/div/div[1]/div[1]/div/div/div/div[1]/span")
     ALL_HREFS = (By.XPATH, "//*[contains(@id, 'Catalog-react-component')]//div/div/div/div[2]/a")

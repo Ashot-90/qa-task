@@ -1,6 +1,6 @@
 import unittest
 from functools import wraps
-from pages.common import Common
+from pages.common.common import Common
 
 
 class TestBase(unittest.TestCase):

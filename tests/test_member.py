@@ -17,7 +17,7 @@ class TestMemberPage(TestBase):
         """
         self.member_page.sort_price_high_to_low()
         prices = list()
-        for price in self.member_page.get_all_prices():
+        for price in self.member_page.common.get_all_price_values():
             text = str(price.text)
             if '£' in text or '€' in text:
                 prices.append(self.member_page.common.truncate_price_value(text))

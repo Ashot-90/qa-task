@@ -40,7 +40,7 @@ class TestCatalogPage(TestBase):
         self.assertEqual(float(self.catalog_page.common.truncate_price_value(to_field_value)), 50,
                          msg="FAILED - '{}' Filtered value for 'to' field is not appeared".format(self._testMethodName))
         self.assertTrue(all(20 <= float(self.catalog_page.common.truncate_price_value(price.text)) <= 50
-                            for price in self.catalog_page.get_all_price_values()),
+                            for price in self.catalog_page.common.get_all_price_values()),
                         msg="FAILED - '{}' Filtered items don't belong to [20-50] range".format(self._testMethodName))
 
     @TestBase.wrap_test
