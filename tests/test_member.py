@@ -4,8 +4,6 @@ from tests.test_base import TestBase
 
 class TestMemberPage(TestBase):
 
-    _report = []
-
     def setUp(self):
         super().setUp()
         self.member_page = MemberPage(driver=self.driver)
