@@ -21,4 +21,4 @@ jobs:
               fi
       - run:
           name: run_tests
-          command: docker run -it --env BROWSER=Firefox --env PORTAL='DE' --env PARALLEL=true qa-task
+          command: docker run -it --env BROWSER=Firefox --env PORTAL='DE' --env PARALLEL=true ashot90docker/qa-task
