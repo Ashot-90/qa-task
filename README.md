@@ -1,8 +1,9 @@
 ### Solution for running test-case on 'www.vinted.de' and 'www.vinted.co.uk' portals
 #### You should already have below ones installed
- * python3 
+ * python3
  * pip3
  * chromedriver
+ * allure
 
 #### Install current project requirements
 * pip3 install -r requirements.txt

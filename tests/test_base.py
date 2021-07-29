@@ -17,9 +17,7 @@ class TestBase(unittest.TestCase):
         def wrapper(test):
             try:
                 test_function(test)
-                print("PASSED - '{}'".format(test._testMethodName))
             except Exception as ex:
-                print("FAILED - '{}'".format(test._testMethodName))
                 Common.take_screenshot(driver=test.driver,
                                        test_name=test._testMethodName)
                 raise ex

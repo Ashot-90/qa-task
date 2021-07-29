@@ -1,2 +1,4 @@
 selenium==3.141.0
-unittest-parallel==1.4.3
+pytest==6.2.4
+pytest-xdist==2.3.0
+allure-pytest==2.9.43

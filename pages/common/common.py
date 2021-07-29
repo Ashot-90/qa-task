@@ -116,7 +116,7 @@ class Common(object):
         date_time = datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
         screenshot_file = "screenshot_{}_{}.png".format(test_name, date_time)
         print("Taking screenshot {}".format(screenshot_file))
-        driver.save_screenshot(screenshot_file)
+        driver.save_screenshot("/".join((os.environ['RESULT_DIR'], screenshot_file)))
 
     @staticmethod
     def truncate_price_value(price: str) -> str:
