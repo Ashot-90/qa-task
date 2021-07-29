@@ -12,8 +12,8 @@ import os
 
 
 class Common(object):
-
     _chrome_driver_path = common_config.config_common['chrome_driver_path']
+    _ff_driver_path = common_config.config_common['ff_driver_path']
 
     def __init__(self, driver: WebDriver, page_elements: Type[CommonPageLocators]):
         self.driver = driver
@@ -46,7 +46,7 @@ class Common(object):
 
     def accept_all_cookies(self) -> None:
         element = WebDriverWait(self.driver, 30).until(
-                            EC.element_to_be_clickable(CommonPageLocators.ACCEPT_ALL_COOKIES))
+            EC.element_to_be_clickable(CommonPageLocators.ACCEPT_ALL_COOKIES))
         self.wait_for_stop_element_move(element)
         self.find_and_click_on_element(element=CommonPageLocators.ACCEPT_ALL_COOKIES)
 
@@ -124,8 +124,27 @@ class Common(object):
 
     @staticmethod
     def create_driver() -> WebDriver:
-        return webdriver.Chrome(executable_path=r'{}'.format(Common._chrome_driver_path),
-                                options=Common.get_chrome_options())
+        try:
+            if os.environ['BROWSER'] == "Chrome":
+                return webdriver.Chrome(executable_path=r'{}'.format(Common._chrome_driver_path),
+                                        options=Common.get_chrome_options())
+            else:
+                return webdriver.Firefox(executable_path=r'{}'.format(Common._ff_driver_path),
+                                         options=Common.get_ff_options())
+        except KeyError:
+            return webdriver.Chrome(executable_path=r'{}'.format(Common._chrome_driver_path),
+                                    options=Common.get_chrome_options())
+
+    @staticmethod
+    def get_ff_options():
+        options = webdriver.FirefoxOptions()
+        try:
+            os.environ['DOCKER_RUN']
+        except KeyError:
+            return options
+        else:
+            options.add_argument("--headless")
+            return options
 
     @staticmethod
     def get_chrome_options():
@@ -139,6 +158,7 @@ class Common(object):
             options.add_argument("--no-sandbox")
             options.add_argument("--disable-dev-shm-usage")
             options.add_argument("--disable-gpu")
+            options.add_argument("--window-size=1920,1080")
             options.binary_location = '/usr/bin/google-chrome'
             chrome_prefs = {}
             options.experimental_options["prefs"] = chrome_prefs
