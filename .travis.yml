@@ -1,5 +1,0 @@
-services:
-  - docker
-
-script:
-  - docker run -it --env BROWSER=Firefox --env PORTAL='DE' --env PARALLEL=true ashot90docker/qa-task
