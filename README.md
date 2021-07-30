@@ -1,6 +1,6 @@
 ## Solution for running test-case on 'www.vinted.de' and 'www.vinted.co.uk' portals
 ## -------------------------------------------------------------
-### Docker Run
+### Docker Run (Working with Firefox ONLY)
 ##### You should already have below ones installed
  * 'docker'
 #### Run
