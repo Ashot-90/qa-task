@@ -113,11 +113,13 @@ class Common(object):
     #     #actions.move_to_element(self.driver.find_element(*element)).click().perform()
 
     @staticmethod
-    def take_screenshot(driver: WebDriver, test_name: str) -> None:
+    def take_screenshot(driver: WebDriver, test_name: str) -> str:
         date_time = datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
-        screenshot_file = "screenshot_{}_{}.png".format(test_name, date_time)
-        print("Taking screenshot {}".format(screenshot_file))
-        driver.save_screenshot("/".join((os.environ['RESULT_DIR'], screenshot_file)))
+        screenshot_name = "screenshot_{}_{}.png".format(test_name, date_time)
+        screenshot_path = "/".join((os.environ['RESULT_DIR'], screenshot_name))
+        print("Taking screenshot {}".format(screenshot_name))
+        driver.save_screenshot(screenshot_path)
+        return screenshot_path
 
     @staticmethod
     def truncate_price_value(price: str) -> str:
