@@ -24,6 +24,12 @@ class CatalogPage(object):
     def get_filter_by_price_to_element(self) -> WebElement:
         return self.driver.find_element(*CatalogPageLocators.PRICE_TO)
 
+    def get_from_value(self) -> str:
+        return self.common.truncate_price_value(self.get_filter_by_price_from_element().get_attribute('value'))
+
+    def get_to_value(self) -> str:
+        return self.common.truncate_price_value(self.get_filter_by_price_to_element().get_attribute('value'))
+
     def filter_by_price(self, from_price: int, to_price: int) -> None:
         self.common.find_and_click_on_element(element=CatalogPageLocators.PRICE_DROPDOWN_BUTTON)
         from_price_field = self.get_filter_by_price_from_element()
@@ -50,14 +56,14 @@ class CatalogPage(object):
     def click_on_nike(self) -> None:
         self.common.find_and_click_on_element(element=CatalogPageLocators.NIKE_CHECK_BOX)
 
-    def get_all_brand_names(self) -> List[WebElement]:
+    def get_all_brand_names(self) -> List[str]:
         self.common.wait_for_grid_to_be_updated()
-        return self.driver.find_elements(*CatalogPageLocators.ALL_BRANDS)
+        return [brand.text for brand in self.driver.find_elements(*CatalogPageLocators.ALL_BRANDS) if brand.text != '']
 
-    def get_catalogue_filtered_hrefs(self) -> List[WebElement]:
+    def get_catalogue_filtered_hrefs(self) -> List[str]:
         self.common.wait_for_grid_to_be_updated()
-        return self.driver.find_elements(*CatalogPageLocators.ALL_HREFS)
+        return [element.get_attribute('href') for element in self.driver.find_elements(*CatalogPageLocators.ALL_HREFS)]
 
-    def get_brand_filtered_dropdown(self) -> List[WebElement]:
+    def get_filtered_brands_dropdown(self) -> List[str]:
         self.common.wait_to_be_updated(function=self._get_all_brand_filtered_dropdown)
-        return self._get_all_brand_filtered_dropdown()
+        return [menu_item.text for menu_item in self._get_all_brand_filtered_dropdown()]

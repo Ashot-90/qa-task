@@ -8,6 +8,7 @@
 cd $ClonedDirectory
 docker build -f Dockerfile -t qa-task .
 docker run -it -v $(pwd):/app/ -w /app/ --env BROWSER=Firefox --env PORTAL='DE' --env PARALLEL=true qa-task
+docker run -it -v $(pwd):/app/ -w /app/ --env BROWSER=Firefox --env PORTAL='UK' --env PARALLEL=false qa-task
 ```
 ## -------------------------------------------------------------
 ### Local Run
