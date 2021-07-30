@@ -136,6 +136,7 @@ class Common(object):
         options = webdriver.FirefoxOptions()
         if common_config.DOCKER_RUN:
             options.add_argument("--headless")
+            options.add_argument("--window-size=1920,1080")
         else:
             options.add_argument("-private")
         return options
