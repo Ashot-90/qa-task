@@ -33,10 +33,10 @@ class TestCatalogPage(TestBase):
         from_field_value = str(self.catalog_page.get_filter_by_price_from_element().get_attribute('value'))
         to_field_value = str(self.catalog_page.get_filter_by_price_to_element().get_attribute('value'))
         self.assertEqual(float(self.catalog_page.common.truncate_price_value(from_field_value)), 20,
-                         msg="FAILED - '{}' Filtered value for 'from' field is not appeared".format(
+                         msg="FAILED - '{}' Filtered value is not appeared for 'from' field".format(
                              self._testMethodName))
         self.assertEqual(float(self.catalog_page.common.truncate_price_value(to_field_value)), 50,
-                         msg="FAILED - '{}' Filtered value for 'to' field is not appeared".format(self._testMethodName))
+                         msg="FAILED - '{}' Filtered value is not appeared for 'to' field".format(self._testMethodName))
         self.assertTrue(all(20 <= float(self.catalog_page.common.truncate_price_value(price.text)) <= 50
                             for price in self.catalog_page.common.get_all_price_values()),
                         msg="FAILED - '{}' Filtered items don't belong to [20-50] range".format(self._testMethodName))
