@@ -1,6 +1,15 @@
 ## Solution for running test-case on 'www.vinted.de' and 'www.vinted.co.uk' portals
 ## -------------------------------------------------------------
-
+### Docker Run
+##### You should already have below ones installed
+ * 'docker'
+#### Run
+```
+cd $ClonedDirectory
+docker build -f Dockerfile -t qa-task .
+docker run -it -v $(pwd):/app/ -w /app/ --env BROWSER=Firefox --env PORTAL='DE' --env PARALLEL=true qa-task
+```
+## -------------------------------------------------------------
 ### Local Run
 #### You should already have below ones installed
  * 'python3' and 'pip3'
@@ -26,13 +35,5 @@ Examples:
 ```
 ./run_tests.sh -portal 'UK' -browser 'Chrome' -parallel true
 ./run_tests.sh -portal 'UK' -browser 'Firefox' -parallel false
-```
-## -------------------------------------------------------------
-### Docker RUN
-##### You should already have below ones installed
- * 'docker'
-#### Run
-```
-docker run -it -v --env BROWSER=Firefox --env PORTAL='DE' --env PARALLEL=true ashot90docker/qa-task
 ```
 ## -------------------------------------------------------------

@@ -1,10 +1,11 @@
 from selenium.webdriver.common.by import By
+from pages.common import common_config
 from pages.common.common_locators import CommonPageLocators
 
 
 class CatalogPageLocators(CommonPageLocators):
-    URL = CommonPageLocators.CATALOG_CONFIG['url']
-    SEARCH_HREF = CommonPageLocators.CATALOG_CONFIG['search_href']
+    URL = common_config.CATALOG_CONFIG['url']
+    SEARCH_HREF = common_config.CATALOG_CONFIG['search_href']
     BRAND_DROPDOWN_BUTTON = (By.XPATH, "//*[contains(@id, 'Catalog-react-component')]//div[3]/div/div/div/div[4]/div/button")
     PRICE_DROPDOWN_BUTTON = (By.XPATH, "//*[contains(@id, 'Catalog-react-component')]//div[3]/div/div/div/div[5]/div/button")
     CATALOGUE_DROPDOWN_BUTTON = (By.XPATH, "//*[contains(@id, 'Catalog-react-component')]//div[3]/div/div/div/div[1]/div/button")

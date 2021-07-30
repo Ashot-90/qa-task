@@ -97,7 +97,7 @@ sleep 5
 if [ "$DOCKER_RUN" == "" ]; then
   ALLURE_CMD="allure"
 else
-  ALLURE_CMD="allure-2.7.0/bin/allure"
+  ALLURE_CMD="/tmp/allure-2.7.0/bin/allure"
 fi
 ALLURE_CMD+=" generate \"${RESULT_DIR}\" -o \"${REPORT_DIR}\""
 eval "${ALLURE_CMD}"

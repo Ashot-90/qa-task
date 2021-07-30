@@ -12,8 +12,8 @@ import os
 
 
 class Common(object):
-    _chrome_driver_path = common_config.config_common['chrome_driver_path']
-    _ff_driver_path = common_config.config_common['ff_driver_path']
+    _chrome_driver_path = common_config.COMMON_CONFIG['chrome_driver_path']
+    _ff_driver_path = common_config.COMMON_CONFIG['ff_driver_path']
 
     def __init__(self, driver: WebDriver, page_elements: Type[CommonPageLocators]):
         self.driver = driver
@@ -27,7 +27,7 @@ class Common(object):
             wait = WebDriverWait(self.driver, timeout=10)
             self.accept_all_cookies()
             # For .DE no questionnaire
-            if CommonPageLocators.PORTAL != 'DE':
+            if common_config.PORTAL != 'DE':
                 self.close_questionnaire()
             wait.until(
                 EC.presence_of_element_located(self.page_elements.GRID))
@@ -124,36 +124,24 @@ class Common(object):
 
     @staticmethod
     def create_driver() -> WebDriver:
-        try:
-            if os.environ['BROWSER'] == "Chrome":
-                return webdriver.Chrome(executable_path=r'{}'.format(Common._chrome_driver_path),
-                                        options=Common.get_chrome_options())
-            else:
-                return webdriver.Firefox(executable_path=r'{}'.format(Common._ff_driver_path),
-                                         options=Common.get_ff_options())
-        except KeyError:
+        if common_config.BROWSER == "Chrome":
             return webdriver.Chrome(executable_path=r'{}'.format(Common._chrome_driver_path),
                                     options=Common.get_chrome_options())
+        else:
+            return webdriver.Firefox(executable_path=r'{}'.format(Common._ff_driver_path),
+                                     options=Common.get_ff_options())
 
     @staticmethod
     def get_ff_options():
         options = webdriver.FirefoxOptions()
-        try:
-            os.environ['DOCKER_RUN']
-        except KeyError:
-            return options
-        else:
+        if common_config.DOCKER_RUN:
             options.add_argument("--headless")
-            return options
+        return options
 
     @staticmethod
     def get_chrome_options():
         options = webdriver.ChromeOptions()
-        try:
-            os.environ['DOCKER_RUN']
-        except KeyError:
-            return options
-        else:
+        if common_config.DOCKER_RUN:
             options.add_argument("--headless")
             options.add_argument("--no-sandbox")
             options.add_argument("--disable-dev-shm-usage")
@@ -163,4 +151,4 @@ class Common(object):
             chrome_prefs = {}
             options.experimental_options["prefs"] = chrome_prefs
             chrome_prefs["profile.default_content_settings"] = {"images": 2}
-            return options
+        return options
