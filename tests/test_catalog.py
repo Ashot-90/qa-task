@@ -22,9 +22,9 @@ class TestCatalogPage(TestBase):
                       msg="FAILED - '{}' 'Nike' has not appeared under dropdown".format(self._testMethodName))
 
         self.catalog_page.click_on_nike()
-        brands = set(self.catalog_page.get_all_brand_names())
-        self.assertEqual(len(brands), 1,
-                         msg="FAILED - '{}' Not all brands are 'Nike'".format(self._testMethodName))
+        brands = self.catalog_page.get_all_brand_names()
+        self.assertTrue(all(appeared_brand == brand for appeared_brand in brands),
+                        msg="FAILED - '{}' Not all brands are 'Nike'".format(self._testMethodName))
 
     @TestBase.wrap_test
     def test_price_filter(self):
@@ -41,7 +41,7 @@ class TestCatalogPage(TestBase):
                          msg="FAILED - '{}' Filtered value is not appeared for 'to' field".format(self._testMethodName))
         self.assertTrue(all(20 <= price <= 50
                             for price in self.catalog_page.common.get_all_price_values()),
-                        msg="FAILED - '{}' Filtered items don't belong to [20-50] range".format(self._testMethodName))
+                        msg="FAILED - '{}' Filtered items' prices don't belong to [20-50] range".format(self._testMethodName))
 
     @TestBase.wrap_test
     def test_brand_filter_dropdown(self):
