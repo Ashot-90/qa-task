@@ -69,7 +69,7 @@ class Common(object):
     def get_all_price_values(self) -> List[float]:
         self.wait_for_grid_to_be_updated()
         return [float(self.truncate_price_value(price_element.text)) for price_element in self.get_all_price_elements()
-                if '£' in price_element.text or '€' in price_element.text != '']
+                if price_element.text != '' and ('£' in price_element.text or '€' in price_element.text)]
 
     def wait_for_grid_to_be_updated(self) -> None:
         attempt = 1
