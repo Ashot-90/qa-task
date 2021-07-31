@@ -1,5 +1,6 @@
 from typing import List
 from selenium.webdriver.android.webdriver import WebDriver
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.remote.webelement import WebElement
 from pages.catalog.catalog_locators import CatalogPageLocators
 from pages.common.common import Common
@@ -42,7 +43,7 @@ class CatalogPage(object):
         to_price_field = self.__get_filter_by_price_to_element()
         to_price_field.clear()
         to_price_field.send_keys(to_price)
-        to_price_field.send_keys(u'\ue007')
+        to_price_field.send_keys(Keys.ENTER)
 
     def click_on_catalogue_woman_shoes_heels_highheels(self) -> None:
         locator_flow = (CatalogPageLocators.CATALOGUE_DROPDOWN_BUTTON,
