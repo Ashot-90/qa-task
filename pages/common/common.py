@@ -18,13 +18,13 @@ class CommonPage(BasePage):
         self.locators = CommonPageLocators(driver=self.driver)
 
     def __close_questionnaire(self) -> None:
-        widget = self.locators.get_questionnaire
-        self.locators.get_close_questionnaire_button.click()
+        widget = self.locators.questionnaire
+        self.locators.close_questionnaire_button.click()
 
     def __accept_all_cookies(self) -> None:
-        element = self.locators.get_accept_all_cookies_button
+        element = self.locators.accept_all_cookies_button
         self.wait_for_stop_element_move(element)
-        self.locators.get_accept_all_cookies_button.click()
+        self.locators.accept_all_cookies_button.click()
 
     def load_page(self, url: str) -> None:
         self.driver.get(url)
@@ -34,7 +34,7 @@ class CommonPage(BasePage):
             # For .DE no questionnaire
             if common_config.PORTAL != 'DE':
                 self.__close_questionnaire()
-            widget = self.locators.get_grid_widget
+            widget = self.locators.grid_widget
         except TimeoutException:
             CommonPage.take_screenshot(driver=self.driver,
                                        test_name='load_page')
@@ -57,10 +57,10 @@ class CommonPage(BasePage):
     def wait_for_grid_to_be_updated(self, locators) -> None:
         attempt = 1
         timeout_after = 200
-        items = locators.get_all_prices
+        items = locators.all_prices
         already_sorted = 1
         while True:
-            new_items = locators.get_all_prices
+            new_items = locators.all_prices
             if items != new_items:
                 break
             else:
@@ -90,7 +90,7 @@ class CommonPage(BasePage):
         element.click()
 
     def truncate_all_price_values(self, locators):
-        return [float(self.truncate_price_value(price_element.text)) for price_element in locators.get_all_prices
+        return [float(self.truncate_price_value(price_element.text)) for price_element in locators.all_prices
                 if price_element.text != '' and ('£' in price_element.text or '€' in price_element.text)]
 
     # def move_to_element_and_click(self, element):

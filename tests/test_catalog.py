@@ -17,30 +17,37 @@ class TestCatalogPage(TestBase):
         brand_filter = "Nik"
         brand = "Nike"
         self.catalog_page.filter_by_brand(brand=brand_filter)
-        self.assertIn(brand, self.catalog_page.get_filtered_brands_dropdown(),
-                      msg="FAILED - '{}' 'Nike' has not appeared under dropdown".format(self._testMethodName))
+        filtered_brands = self.catalog_page.get_filtered_brands_dropdown()
+        self.assertIn(brand, filtered_brands,
+                      msg="FAILED - '{}' '{}' has not appeared under dropdown '{}'"
+                      .format(self._testMethodName, brand, filtered_brands))
 
         self.catalog_page.click_on_nike()
         brands = self.catalog_page.get_all_brand_names()
         self.assertTrue(all(appeared_brand == brand for appeared_brand in brands),
-                        msg="FAILED - '{}' Not all brands are 'Nike'".format(self._testMethodName))
+                        msg="FAILED - '{}' Not all brands are '{}' in '{}'"
+                        .format(self._testMethodName, brand, brands))
 
     @TestBase.wrap_test
     def test_price_filter(self):
         """
         Test for price filter from 20 to 50
         """
-        self.catalog_page.filter_by_price(20, 50)
+        price_from = 20
+        price_to = 50
+        self.catalog_page.filter_by_price(price_from, price_to)
         from_field_value = float(self.catalog_page.get_from_value())
         to_field_value = float(self.catalog_page.get_to_value())
-        self.assertEqual(from_field_value, 20,
-                         msg="FAILED - '{}' Filtered value is not appeared for 'from' field".format(
-                             self._testMethodName))
+        self.assertEqual(from_field_value, price_from,
+                         msg="FAILED - '{}' Filtered value is not appeared for 'from' field"
+                         .format(self._testMethodName))
         self.assertEqual(to_field_value, 50,
-                         msg="FAILED - '{}' Filtered value is not appeared for 'to' field".format(self._testMethodName))
-        self.assertTrue(all(20 <= price <= 50
-                            for price in self.catalog_page.get_all_price_values()),
-                        msg="FAILED - '{}' Filtered items' prices don't belong to [20-50] range".format(self._testMethodName))
+                         msg="FAILED - '{}' Filtered value is not appeared for 'to' field"
+                         .format(self._testMethodName))
+        prices = self.catalog_page.get_all_price_values()
+        self.assertTrue(all(20 <= price <= 50 for price in prices),
+                        msg="FAILED - '{}' Filtered items' prices don't belong to ['{}'-'{}'] range -- '{}'"
+                        .format(self._testMethodName, price_from, price_to, prices))
 
     @TestBase.wrap_test
     def test_brand_filter_dropdown(self):
@@ -50,9 +57,10 @@ class TestCatalogPage(TestBase):
         search_for = "Nik"
         search_tmp = "n"
         self.catalog_page.filter_by_brand(brand=search_for)
-        self.assertTrue(all(search_tmp.lower() in str(brand).lower()
-                            for brand in self.catalog_page.get_filtered_brands_dropdown()),
-                        msg="FAILED - '{}' Not all brands are contained 'Nik'".format(self._testMethodName))
+        brands = self.catalog_page.get_filtered_brands_dropdown()
+        self.assertTrue(all(search_tmp.lower() in str(brand).lower() for brand in brands),
+                        msg="FAILED - '{}' Not all brands in '{}' are contained '{}'"
+                        .format(self._testMethodName, brands, search_for))
 
     @TestBase.wrap_test
     def test_catalogue_filter(self):
@@ -63,5 +71,6 @@ class TestCatalogPage(TestBase):
 
         hrefs = self.catalog_page.get_catalogue_filtered_hrefs()
         random_href = random.choice(hrefs)
-        self.assertIn(self.catalog_page.locators.get_search_href, random_href,
-                      msg="FAILED - '{}' Random element doesn't belong to 'high-heels'".format(self._testMethodName))
+        self.assertIn(self.catalog_page.locators.search_href, random_href,
+                      msg="FAILED - '{}' Random element '{}' doesn't belong to 'high-heels'"
+                      .format(self._testMethodName, random_href))

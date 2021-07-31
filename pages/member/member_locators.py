@@ -1,7 +1,5 @@
-from typing import Tuple, List
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.remote.webelement import WebElement
 from pages.common import common_config
 from pages.common.common_locators import CommonPageLocators
 
@@ -16,34 +14,7 @@ class MemberPageLocators(CommonPageLocators):
     def __init__(self, driver: WebDriver):
         super().__init__(driver)
 
-    @property
-    def url(self):
-        return self.__URL
-
-    @url.getter
-    def get_url(self):
-        return self.__URL
-
-    @property
-    def all_prices(self):
-        return self.__ALL_PRICES
-
-    @all_prices.getter
-    def get_all_prices(self) -> List[WebElement]:
-        return self.driver.find_elements(*self.__ALL_PRICES)
-
-    @property
-    def sort_dropwdown_button(self) -> Tuple:
-        return self.__SORT_DROPDOWN_BUTTON
-
-    @sort_dropwdown_button.getter
-    def get_sort_dropwdown_button(self) -> WebElement:
-        return self.driver.find_element(*self.__SORT_DROPDOWN_BUTTON)
-
-    @property
-    def sort_price_high_to_low_button(self) -> Tuple:
-        return self.__SORT_PRICE_HIGH_TO_LOW
-
-    @sort_price_high_to_low_button.getter
-    def get_sort_price_high_to_low_button(self) -> WebElement:
-        return self.driver.find_element(*self.__SORT_PRICE_HIGH_TO_LOW)
+    url = property(fget=lambda self: self.__URL)
+    all_prices = property(fget=lambda self: self.driver.find_elements(*self.__ALL_PRICES))
+    sort_dropwdown_button = property(fget=lambda self: self.driver.find_element(*self.__SORT_DROPDOWN_BUTTON))
+    sort_price_high_to_low_button = property(fget=lambda self: self.driver.find_element(*self.__SORT_PRICE_HIGH_TO_LOW))
