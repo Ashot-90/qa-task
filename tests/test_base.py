@@ -1,14 +1,14 @@
 import unittest
 from functools import wraps
 from allure_commons.types import AttachmentType
-from pages.common.common import Common
+from pages.common.common import CommonPage
 import allure
 
 
 class TestBase(unittest.TestCase):
 
     def setUp(self):
-        self.driver = Common.create_driver()
+        self.driver = CommonPage.create_driver()
 
     def tearDown(self):
         self.driver.close()
@@ -21,7 +21,7 @@ class TestBase(unittest.TestCase):
                 try:
                     test_function(test)
                 except Exception as ex:
-                    screenshot_path = Common.take_screenshot(driver=test.driver,
+                    screenshot_path = CommonPage.take_screenshot(driver=test.driver,
                                                              test_name=test._testMethodName)
                     allure.attach(open(file=screenshot_path,
                                        mode='rb').read(),

@@ -14,6 +14,6 @@ class TestMemberPage(TestBase):
         Test for price sort from high to low
         """
         self.member_page.sort_price_high_to_low()
-        prices = self.member_page.common.get_all_price_values()
+        prices = self.member_page.get_all_price_values()
         self.assertTrue(all(prices[i] >= prices[i + 1] for i in range(len(prices) - 1)),
                         msg="FAILED - '{}' Prices sorted incorrectly ".format(self._testMethodName))

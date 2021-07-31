@@ -1,6 +1,5 @@
 import random
 from pages.catalog.catalog import CatalogPage
-from pages.catalog.catalog_locators import CatalogPageLocators
 from tests.test_base import TestBase
 
 
@@ -40,7 +39,7 @@ class TestCatalogPage(TestBase):
         self.assertEqual(to_field_value, 50,
                          msg="FAILED - '{}' Filtered value is not appeared for 'to' field".format(self._testMethodName))
         self.assertTrue(all(20 <= price <= 50
-                            for price in self.catalog_page.common.get_all_price_values()),
+                            for price in self.catalog_page.get_all_price_values()),
                         msg="FAILED - '{}' Filtered items' prices don't belong to [20-50] range".format(self._testMethodName))
 
     @TestBase.wrap_test
@@ -64,5 +63,5 @@ class TestCatalogPage(TestBase):
 
         hrefs = self.catalog_page.get_catalogue_filtered_hrefs()
         random_href = random.choice(hrefs)
-        self.assertIn(CatalogPageLocators.SEARCH_HREF, random_href,
+        self.assertIn(self.catalog_page.locators.get_search_href, random_href,
                       msg="FAILED - '{}' Random element doesn't belong to 'high-heels'".format(self._testMethodName))

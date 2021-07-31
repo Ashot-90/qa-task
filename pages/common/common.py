@@ -1,52 +1,43 @@
-from typing import Type, List, Tuple
+from typing import Tuple
 from selenium.common.exceptions import TimeoutException
-from selenium.webdriver.android.webdriver import WebDriver
+from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
+from pages.base.base import BasePage
 from pages.common import common_config
 from pages.common.common_locators import CommonPageLocators
 from datetime import datetime
 from selenium import webdriver
 
 
-class Common(object):
+class CommonPage(BasePage):
     __chrome_driver_path = common_config.COMMON_CONFIG['chrome_driver_path']
     __ff_driver_path = common_config.COMMON_CONFIG['ff_driver_path']
 
-    def __init__(self, driver: WebDriver, page_elements: Type[CommonPageLocators]):
-        self.driver = driver
-        self.page_elements = page_elements
+    def __init__(self, driver: WebDriver):
+        super().__init__(driver)
+        self.locators = CommonPageLocators(driver=self.driver)
 
     def __close_questionnaire(self) -> None:
-        wait = WebDriverWait(self.driver, timeout=10)
-        load_completed = wait.until(
-            EC.text_to_be_present_in_element(CommonPageLocators.QUESTIONNAIRE,
-                                             CommonPageLocators.QUESTIONNAIRE_TEXT))
-        if load_completed:
-            self.find_and_click_on_element(element=CommonPageLocators.CLOSE_QUESTIONNAIRE_BUTTON)
+        widget = self.locators.get_questionnaire
+        self.locators.get_close_questionnaire_button.click()
 
     def __accept_all_cookies(self) -> None:
-        element = WebDriverWait(self.driver, 30).until(
-            EC.element_to_be_clickable(CommonPageLocators.ACCEPT_ALL_COOKIES))
+        element = self.locators.get_accept_all_cookies_button
         self.wait_for_stop_element_move(element)
-        self.find_and_click_on_element(element=CommonPageLocators.ACCEPT_ALL_COOKIES)
+        self.locators.get_accept_all_cookies_button.click()
 
-    def load_page(self) -> None:
-        url = self.page_elements.URL
+    def load_page(self, url: str) -> None:
         self.driver.get(url)
         self.driver.maximize_window()
         try:
-            wait = WebDriverWait(self.driver, timeout=10)
             self.__accept_all_cookies()
             # For .DE no questionnaire
             if common_config.PORTAL != 'DE':
                 self.__close_questionnaire()
-            wait.until(
-                EC.presence_of_element_located(self.page_elements.GRID))
+            widget = self.locators.get_grid_widget
         except TimeoutException:
-            Common.take_screenshot(driver=self.driver,
-                                   test_name='load_page')
+            CommonPage.take_screenshot(driver=self.driver,
+                                       test_name='load_page')
             raise TimeoutException("Error: Timed out waiting for page load")
 
     def wait_for_stop_element_move(self, element: WebElement) -> None:
@@ -63,21 +54,13 @@ class Common(object):
             if attempt == timeout_after:
                 raise TimeoutException(msg="Error: Timed out waiting for element location change")
 
-    def get_all_price_elements(self) -> List[WebElement]:
-        return self.driver.find_elements(*self.page_elements.ALL_PRICES)
-
-    def get_all_price_values(self) -> List[float]:
-        self.wait_for_grid_to_be_updated()
-        return [float(self.truncate_price_value(price_element.text)) for price_element in self.get_all_price_elements()
-                if price_element.text != '' and ('£' in price_element.text or '€' in price_element.text)]
-
-    def wait_for_grid_to_be_updated(self) -> None:
+    def wait_for_grid_to_be_updated(self, locators) -> None:
         attempt = 1
         timeout_after = 200
-        items = self.get_all_price_elements()
+        items = locators.get_all_prices
         already_sorted = 1
         while True:
-            new_items = self.get_all_price_elements()
+            new_items = locators.get_all_prices
             if items != new_items:
                 break
             else:
@@ -106,6 +89,10 @@ class Common(object):
         element = self.driver.find_element(*element)
         element.click()
 
+    def truncate_all_price_values(self, locators):
+        return [float(self.truncate_price_value(price_element.text)) for price_element in locators.get_all_prices
+                if price_element.text != '' and ('£' in price_element.text or '€' in price_element.text)]
+
     # def move_to_element_and_click(self, element):
     #     self.driver.execute_script("arguments[0].click();", self.driver.find_element(*element))
     #     #actions = webdriver.ActionChains(self.driver)
@@ -127,11 +114,11 @@ class Common(object):
     @staticmethod
     def create_driver() -> WebDriver:
         if common_config.BROWSER == "Chrome":
-            return webdriver.Chrome(executable_path=r'{}'.format(Common.__chrome_driver_path),
-                                    options=Common.get_chrome_options())
+            return webdriver.Chrome(executable_path=r'{}'.format(CommonPage.__chrome_driver_path),
+                                    options=CommonPage.get_chrome_options())
         else:
-            return webdriver.Firefox(executable_path=r'{}'.format(Common.__ff_driver_path),
-                                     options=Common.get_ff_options())
+            return webdriver.Firefox(executable_path=r'{}'.format(CommonPage.__ff_driver_path),
+                                     options=CommonPage.get_ff_options())
 
     @staticmethod
     def get_ff_options():
