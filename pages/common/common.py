@@ -8,7 +8,6 @@ from pages.common import common_config
 from pages.common.common_locators import CommonPageLocators
 from datetime import datetime
 from selenium import webdriver
-import os
 
 
 class Common(object):
@@ -116,7 +115,7 @@ class Common(object):
     def take_screenshot(driver: WebDriver, test_name: str) -> str:
         date_time = datetime.now().strftime("%d_%m_%Y_%H_%M_%S")
         screenshot_name = "screenshot_{}_{}.png".format(test_name, date_time)
-        screenshot_path = "/".join((os.environ['RESULT_DIR'], screenshot_name))
+        screenshot_path = "/".join((common_config.RESULT_DIR, screenshot_name))
         print("Taking screenshot {}".format(screenshot_name))
         driver.save_screenshot(screenshot_path)
         return screenshot_path

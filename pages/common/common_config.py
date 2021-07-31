@@ -14,6 +14,7 @@ config_common_docker = {
 
 PORTAL = os.environ['PORTAL']
 BROWSER = os.environ['BROWSER']
+RESULT_DIR = os.environ['RESULT_DIR']
 
 if PORTAL == 'DE':
     CATALOG_CONFIG = catalog_config.config_de
