@@ -19,10 +19,14 @@ class TestBase(unittest.TestCase):
         def wrapper(test):
             with allure.step(title=test.__doc__):
                 try:
+                    test.setUp()
                     test_function(test)
+                    test.tearDown()
+                    print("PASSED - '{}'".format(test_function.__name__))
                 except Exception as ex:
+                    print("FAILED - '{}'".format(test_function.__name__))
                     screenshot_path = CommonPage.take_screenshot(driver=test.driver,
-                                                             test_name=test._testMethodName)
+                                                                 test_name=test_function.__name__)
                     allure.attach(open(file=screenshot_path,
                                        mode='rb').read(),
                                   name=test._testMethodName,

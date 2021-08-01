@@ -91,18 +91,20 @@ mkdir -p "${RESULT_DIR}"
 export RESULT_DIR
 ############################
 # Run command
-RUN_CMD="pytest -v -n ${PROC_COUNT} --alluredir=${RESULT_DIR}"
+#RUN_CMD="pytest -v -n ${PROC_COUNT} --alluredir=${RESULT_DIR}"
+export PROC_COUNT
+RUN_CMD="python3 main.py"
 echo "Running : '$RUN_CMD'"
 eval "${RUN_CMD}" || :
 ############################
-echo "Generating Allure Report..."
-sleep 5
-if [ "$DOCKER_RUN" == "" ]; then
-  ALLURE_CMD="allure"
-else
-  ALLURE_CMD="/tmp/allure-2.7.0/bin/allure"
-fi
-ALLURE_CMD+=" generate \"${RESULT_DIR}\" -o \"${REPORT_DIR}\""
-eval "${ALLURE_CMD}"
+#echo "Generating Allure Report..."
+#sleep 5
+#if [ "$DOCKER_RUN" == "" ]; then
+#  ALLURE_CMD="allure"
+#else
+#  ALLURE_CMD="/tmp/allure-2.7.0/bin/allure"
+#fi
+#ALLURE_CMD+=" generate \"${RESULT_DIR}\" -o \"${REPORT_DIR}\""
+#eval "${ALLURE_CMD}"
 #allure open -h 127.0.0.1 -p 8083 "${REPORT_DIR}"
 ############################
