@@ -1,14 +1,14 @@
 import unittest
 from functools import wraps
 from allure_commons.types import AttachmentType
-from pages.common.common import Common
+from pages.common.common import CommonPage
 import allure
 
 
 class TestBase(unittest.TestCase):
 
     def setUp(self):
-        self.driver = Common.create_driver()
+        self.driver = CommonPage.create_driver()
 
     def tearDown(self):
         self.driver.close()
@@ -22,11 +22,11 @@ class TestBase(unittest.TestCase):
                     test.setUp()
                     test_function(test)
                     test.tearDown()
-                    print("PASSED - '{}'".format(test._testMethodName))
+                    print("PASSED - '{}'".format(test_function.__name__))
                 except Exception as ex:
-                    print("FAILED - '{}'".format(test._testMethodName))
-                    screenshot_path = Common.take_screenshot(driver=test.driver,
-                                                             test_name=test._testMethodName)
+                    print("FAILED - '{}'".format(test_function.__name__))
+                    screenshot_path = CommonPage.take_screenshot(driver=test.driver,
+                                                                 test_name=test._testMethodName)
                     allure.attach(open(file=screenshot_path,
                                        mode='rb').read(),
                                   name=test._testMethodName,

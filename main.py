@@ -1,40 +1,33 @@
 import multiprocessing
+from typing import List
+# Below ones need to be here, as using reflection
 from tests.test_member import TestMemberPage
 from tests.test_catalog import TestCatalogPage
-
-TESTS_1 = (
-    TestMemberPage.test_price_sort,
-)
-
-TESTS_2 = (
-    TestCatalogPage.test_price_filter,
-    TestCatalogPage.test_brand_filter,
-    TestCatalogPage.test_catalogue_filter,
-    TestCatalogPage.test_brand_filter_dropdown
-)
 
 
 class Main(object):
 
     @staticmethod
-    def run():
+    def run() -> None:
         cpu_count = multiprocessing.cpu_count()
         print("CPU Count is '{}'".format(cpu_count))
-        test_catalog_page = TestCatalogPage()
-        test_member_page = TestCatalogPage()
+        classes = ('TestCatalogPage', 'TestMemberPage')
         pool = multiprocessing.Pool(processes=cpu_count)
-        for test_function in TESTS_1:
-            Main.__add_to_pool(pool, test_function, test_member_page)
-        for test_function in TESTS_2:
-            Main.__add_to_pool(pool, test_function, test_catalog_page)
+        for class_ in classes:
+            test_class_object = eval(class_ + '()')
+            for test_function in Main.get_test_functions(class_name=class_):
+                pool.apply_async(func=eval('.'.join([class_, test_function])),
+                                 args=(test_class_object, ))
         pool.close()
         pool.join()
 
     @staticmethod
-    def __add_to_pool(pool: multiprocessing.Pool, function, page_object):
-        print("Adding '{}' function to pool".format(function.__name__))
-        pool.apply_async(func=function,
-                         args=(page_object,))
+    def get_test_functions(class_name: str) -> List[str]:
+        test_functions = []
+        for name, instance_type in eval('.'.join([class_name, '__dict__', 'items()'])):
+            if callable(instance_type) and str(name).startswith('test_'):
+                test_functions.append(str(name))
+        return test_functions
 
 
 if __name__ == "__main__":
