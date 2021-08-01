@@ -40,3 +40,6 @@ Examples:
 ./run_tests.sh -portal 'DE' -browser 'Firefox' -parallel true
 ```
 ## -------------------------------------------------------------
+### Below architecture has been used to design code
+![Diagram](https://github.com/Ashot-90/qa-task/blob/master/Diagram.jpg?raw=true)
+## -------------------------------------------------------------
