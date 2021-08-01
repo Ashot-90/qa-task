@@ -19,8 +19,8 @@ class TestCatalogPage(TestBase):
         self.catalog_page.filter_by_brand(brand=brand_filter)
         filtered_brands = self.catalog_page.get_filtered_brands_dropdown()
         self.assertIn(brand, filtered_brands,
-                      msg="FAILED - '{}' '{}' has not appeared under dropdown '{}'"
-                      .format(self._testMethodName, brand, filtered_brands))
+                      msg="FAILED - '{}' Brand has not appeared under dropdown"
+                      .format(self._testMethodName))
 
         self.catalog_page.click_on_nike()
         brands = self.catalog_page.get_all_brand_names()
