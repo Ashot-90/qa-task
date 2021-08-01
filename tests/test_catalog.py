@@ -72,5 +72,5 @@ class TestCatalogPage(TestBase):
         hrefs = self.catalog_page.get_catalogue_filtered_hrefs()
         random_href = random.choice(hrefs)
         self.assertIn(self.catalog_page.locators.search_href, random_href,
-                      msg="FAILED - '{}' Random element '{}' doesn't belong to 'high-heels'"
-                      .format(self._testMethodName, random_href))
+                      msg="FAILED - '{}' Random element doesn't belong to 'high-heels'"
+                      .format(self._testMethodName))
