@@ -1,4 +1,3 @@
-from typing import Tuple
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
@@ -84,10 +83,6 @@ class CommonPage(BasePage):
             self.driver.implicitly_wait(0.1)
             if attempt == timeout_after:
                 raise TimeoutException(msg="Error: Timed out waiting for widget update")
-
-    def find_and_click_on_element(self, element: Tuple) -> None:
-        element = self.driver.find_element(*element)
-        element.click()
 
     def truncate_all_price_values(self, locators):
         return [float(self.truncate_price_value(price_element.text)) for price_element in locators.all_prices

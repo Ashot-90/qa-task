@@ -15,6 +15,6 @@ class MemberPageLocators(CommonPageLocators):
         super().__init__(driver)
 
     url = property(fget=lambda self: self.__URL)
-    all_prices = property(fget=lambda self: self.driver.find_elements(*self.__ALL_PRICES))
-    sort_dropwdown_button = property(fget=lambda self: self.driver.find_element(*self.__SORT_DROPDOWN_BUTTON))
-    sort_price_high_to_low_button = property(fget=lambda self: self.driver.find_element(*self.__SORT_PRICE_HIGH_TO_LOW))
+    all_prices = property(fget=lambda self: self.find_elements(self.__ALL_PRICES))
+    sort_dropwdown_button = property(fget=lambda self: self.find_element(self.__SORT_DROPDOWN_BUTTON))
+    sort_price_high_to_low_button = property(fget=lambda self: self.find_element(self.__SORT_PRICE_HIGH_TO_LOW))
