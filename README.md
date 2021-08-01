@@ -13,7 +13,7 @@ docker run -it -v $(pwd):/app/ -w /app/ --env BROWSER=Firefox --env PORTAL='UK' 
 ## -------------------------------------------------------------
 ### Local Run
 #### You should already have below ones installed
- * 'python3' and 'pip3'
+ * 'python3' and 'pip3' (python version >= 3.8)
  * 'google-chrome' and 'chromedriver'
  * 'firefox' and 'geckodriver'  
  * 'allure'
@@ -35,6 +35,8 @@ docker run -it -v $(pwd):/app/ -w /app/ --env BROWSER=Firefox --env PORTAL='UK' 
 Examples:
 ```
 ./run_tests.sh -portal 'UK' -browser 'Chrome' -parallel true
+./run_tests.sh -portal 'DE' -browser 'Chrome' -parallel false
 ./run_tests.sh -portal 'UK' -browser 'Firefox' -parallel false
+./run_tests.sh -portal 'DE' -browser 'Firefox' -parallel true
 ```
 ## -------------------------------------------------------------
