@@ -1,4 +1,4 @@
-## Solution for running test-case on 'www.vinted.de' and 'www.vinted.co.uk' portals
+## Solution for running test-cases on 'www.vinted.de' and 'www.vinted.co.uk' portals
 ## -------------------------------------------------------------
 ### Docker Run (Working with Firefox ONLY)
 ##### You should already have below ones installed
@@ -13,15 +13,19 @@ docker run -it -v $(pwd):/app/ -w /app/ --env BROWSER=Firefox --env PORTAL='UK' 
 ## -------------------------------------------------------------
 ### Local Run
 #### You should already have below ones installed
+```
  * 'python3' and 'pip3' (python version >= 3.8)
  * 'google-chrome' and 'chromedriver'
  * 'firefox' and 'geckodriver'  
  * 'allure'
-
+```
 #### Install current project requirements
+```
 * pip3 install -r requirements.txt
+```
 #### Then run './run_tests.sh' with below parameters
 #### Input parameters:
+```
 * [ -portal | -po ]
     *  Portal. Default : 'DE'.
     *  Enum 'DE | UK'.
@@ -31,6 +35,7 @@ docker run -it -v $(pwd):/app/ -w /app/ --env BROWSER=Firefox --env PORTAL='UK' 
 * [ -browser | -b ]
     * Browser. Default : Chrome.
     * Enum 'Chrome | Firefox'. 
+```
 #### Run script:
 Examples:
 ```
@@ -40,6 +45,11 @@ Examples:
 ./run_tests.sh -portal 'DE' -browser 'Firefox' -parallel true
 ```
 ## -------------------------------------------------------------
-### Below hierarchy of classes has been used to design code
+#### Allure report will be generated under directory by pattern
+```
+AllureReport_*
+```
+## -------------------------------------------------------------
+#### Below hierarchy of classes has been used to design code
 ![Diagram](https://github.com/Ashot-90/qa-task/blob/master/Diagram.jpg?raw=true)
 ## -------------------------------------------------------------
