@@ -1,4 +1,5 @@
 import multiprocessing
+import os
 from typing import List
 # Below ones need to be here, as using reflection
 from tests.test_member import TestMemberPage
@@ -7,12 +8,12 @@ from tests.test_catalog import TestCatalogPage
 
 class Main(object):
 
+    __proc_count = int(os.environ['PROC_COUNT'])
+
     @staticmethod
     def run() -> None:
-        cpu_count = multiprocessing.cpu_count()
-        print("CPU Count is '{}'".format(cpu_count))
         classes = ('TestCatalogPage', 'TestMemberPage')
-        pool = multiprocessing.Pool(processes=cpu_count)
+        pool = multiprocessing.Pool(processes=Main.__proc_count)
         for class_ in classes:
             test_class_object = eval(class_ + '()')
             for test_function in Main.get_test_functions(class_name=class_):
