@@ -26,7 +26,7 @@ class TestBase(unittest.TestCase):
                 except Exception as ex:
                     print("FAILED - '{}'".format(test_function.__name__))
                     screenshot_path = CommonPage.take_screenshot(driver=test.driver,
-                                                                 test_name=test._testMethodName)
+                                                                 test_name=test_function.__name__)
                     allure.attach(open(file=screenshot_path,
                                        mode='rb').read(),
                                   name=test._testMethodName,
