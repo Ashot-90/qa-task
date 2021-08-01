@@ -22,12 +22,13 @@ class TestBase(unittest.TestCase):
                     test_function(test)
                 except Exception as ex:
                     screenshot_path = CommonPage.take_screenshot(driver=test.driver,
-                                                             test_name=test._testMethodName)
+                                                                 test_name=test._testMethodName)
                     allure.attach(open(file=screenshot_path,
                                        mode='rb').read(),
                                   name=test._testMethodName,
                                   attachment_type=AttachmentType.PNG)
                     raise ex
+
         return wrapper
 
 

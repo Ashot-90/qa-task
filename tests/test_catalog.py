@@ -41,11 +41,11 @@ class TestCatalogPage(TestBase):
         self.assertEqual(from_field_value, price_from,
                          msg="FAILED - '{}' Filtered value is not appeared for 'from' field"
                          .format(self._testMethodName))
-        self.assertEqual(to_field_value, 50,
+        self.assertEqual(to_field_value, price_to,
                          msg="FAILED - '{}' Filtered value is not appeared for 'to' field"
                          .format(self._testMethodName))
         prices = self.catalog_page.get_all_price_values()
-        self.assertTrue(all(20 <= price <= 50 for price in prices),
+        self.assertTrue(all(price_from <= price <= price_to for price in prices),
                         msg="FAILED - '{}' Filtered items' prices don't belong to ['{}'-'{}'] range -- '{}'"
                         .format(self._testMethodName, price_from, price_to, prices))
 
