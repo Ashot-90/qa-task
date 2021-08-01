@@ -72,6 +72,9 @@ if [ "$PARALLEL" == "true" ]; then
   echo "Running tests in parallel mode"
   if [ "$DOCKER_RUN" == "" ]; then
     PROC_COUNT=$(sysctl hw.ncpu | awk -F ":" '{print $2}' | tr -d ' ')
+    if [ "${PROC_COUNT}" = "" ]; then
+      PROC_COUNT=5
+    fi
   else
     PROC_COUNT=$(nproc)
   fi
