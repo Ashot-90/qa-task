@@ -1,6 +1,4 @@
 import os
-from pages.catalog import catalog_config
-from pages.member import member_config
 
 config_common_local = {
     "chrome_driver_path": "./chromedriver",
@@ -12,16 +10,34 @@ config_common_docker = {
     "ff_driver_path": "/tmp/geckodriver"
 }
 
+catalog_config_uk = {
+    "url": "https://www.vinted.co.uk/catalog",
+    "search_href": "/women/shoes/heels/high-heels/"
+}
+
+catalog_config_de = {
+    "url": "https://www.vinted.de/catalog",
+    "search_href": "/damen/schuhe/absatzschuhe/high-heels-and-pumps/"
+}
+
+member_config_uk = {
+    "url": "https://www.vinted.co.uk/member/64678795"
+}
+
+member_config_de = {
+    "url": "https://www.vinted.de/member/64679137"
+}
+
 PORTAL = os.environ['PORTAL']
 BROWSER = os.environ['BROWSER']
 RESULT_DIR = os.environ['RESULT_DIR']
 
 if PORTAL == 'DE':
-    CATALOG_CONFIG = catalog_config.config_de
-    CATALOG_MEMBER = member_config.config_de
+    CATALOG_CONFIG = catalog_config_de
+    CATALOG_MEMBER = member_config_de
 elif PORTAL == 'UK':
-    CATALOG_CONFIG = catalog_config.config_uk
-    CATALOG_MEMBER = member_config.config_uk
+    CATALOG_CONFIG = catalog_config_uk
+    CATALOG_MEMBER = member_config_uk
 
 try:
     DOCKER_RUN_ENV = os.environ['DOCKER_RUN']
