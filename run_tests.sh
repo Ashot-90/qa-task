@@ -36,7 +36,7 @@ else
   if [[ "$BROWSER" =~ ^(Chrome|Firefox)$ ]]; then
     echo "Using browser '$BROWSER'"
   else
-    echo "Warning: Incorrect portal provided. Using portal 'DE'"
+    echo "Warning: Incorrect browser provided. Using browser 'Chrome'"
     BROWSER='Chrome'
   fi
 fi
